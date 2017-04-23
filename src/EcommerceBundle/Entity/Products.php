@@ -3,6 +3,7 @@
 namespace EcommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Products
@@ -49,6 +50,10 @@ class Products
      */
     private $image;
 
+    /**
+     * @Assert\Image(mimeTypes={"image/png", "image/jpeg"}, maxSize="5M")
+     */
+    private $image_form;
 
     /**
      * Get id
@@ -154,6 +159,22 @@ class Products
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageForm()
+    {
+        return $this->image_form;
+    }
+
+    /**
+     * @param mixed $image_form
+     */
+    public function setImageForm($image_form)
+    {
+        $this->image_form = $image_form;
     }
 }
 

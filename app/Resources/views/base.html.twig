@@ -33,9 +33,16 @@
             </nav>
         {% endblock %}
         {% block header %}{% endblock %}
-        {% block body %}{% endblock %}
+        {% block body %}
+            <section>
+                <div>
+                    {{ include('default/_flash_messages.html.twig') }}
+                </div>
+            </section>
+        {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

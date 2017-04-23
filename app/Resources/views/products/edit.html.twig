@@ -1,21 +1,64 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Edit Product{% endblock %}
+
 {% block body %}
-    <h1>Product edit</h1>
+    <header id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Categories
+                        <small>Edit product</small>
+                    </h1>
+                </div>
+                <div class="col-md-2">
+                    <div class="space-top">
+                        <a class="btn btn btn-default" href="{{ path('categories_new') }}">Add category</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="space-top">
+                        <a class="btn btn btn-default" href="{{ path('admin_products_new') }}">Add product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+    <section id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="list-group">
+                        <a href="index.html" class="list-group-item">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
+                        </a>
+                        <a href="{{ path('categories_index') }}" class="list-group-item"><span
+                                    class="glyphicon glyphicon-tags" aria-hidden="true"></span> Categories</a>
+                        <a href="{{ path('admin_products_index') }}" class="list-group-item active main-color-bg"><span
+                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Products</a>
+                        <a href="orders.html" class="list-group-item"><span class="glyphicon glyphicon-copy"
+                                                                            aria-hidden="true"></span> Orders</a>
+                        <a href="users.html" class="list-group-item"><span class="glyphicon glyphicon-user"
+                                                                           aria-hidden="true"></span> Users</a>
+                    </div>
+                </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_products_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+                <div class="col-md-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading main-color-bg">
+                            <h3 class="panel-title">Edit product</h3>
+                        </div>
+                        <div class="panel-body">
+                            {{ form_start(edit_form) }}
+                            {{ form_widget(edit_form) }}
+                            <input type="submit" class="btn main-color-bg" value="Edit" />
+                            <a class="btn btn-success" href="{{ path('admin_products_index') }}">Back to the list</a>
+                            {{ form_end(edit_form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

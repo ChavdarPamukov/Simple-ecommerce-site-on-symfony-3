@@ -2,6 +2,10 @@ body{
     background:#f4f4f4;
 }
 
+ul {
+    list-style-type: none;
+}
+
 /* Navbar */
 .navbar{
     min-height: 33px !important;
@@ -76,9 +80,17 @@ body{
     color:#ffffff !important;
 }
 
-/* Custom margin*/
+/* Custom space*/
 .space-top{
+    padding-top: 20px;
+}
+
+.button-space-top{
     margin-top: 10px;
+}
+
+.button-space{
+    margin: 10px;
 }
 
 /* Header */
@@ -87,10 +99,6 @@ body{
     color:#ffffff;
     padding-bottom: 10px;
     margin-bottom: 15px;
-}
-
-#header .create{
-    padding-top: 20px;
 }
 
 /* Breadcrumb */

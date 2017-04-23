@@ -5,7 +5,10 @@ namespace EcommerceBundle\Controller\Admin;
 use EcommerceBundle\Entity\Products;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Product controller.
@@ -24,7 +27,8 @@ class ProductsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $products = $em->getRepository('EcommerceBundle:Products')->findAll();
+        $products = $em->getRepository('EcommerceBundle:Products')
+            ->findBy([], ['id'=>'desc']);
 
         return $this->render('products/index.html.twig', array(
             'products' => $products,
@@ -44,11 +48,28 @@ class ProductsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+            $file = $product->getImageForm();
+            if (!$file) {
+                $form->get('image_form')->addError(new FormError('Image is required'));
+            } else {
+                $filename = md5($product->getName() . '' . $product->getId());
 
-            return $this->redirectToRoute('admin_products_show', array('id' => $product->getId()));
+                $file->move(
+                    $this->get('kernel')->getRootDir() . '/../web/images/product/',
+                    $filename
+                );
+
+                $product->setImage($filename);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+
+                $this->addFlash('success', 'Category is created successfully!');
+
+                return $this->redirectToRoute('admin_products_show', array('id' => $product->getId()));
+            }
+
         }
 
         return $this->render('products/new.html.twig', array(
@@ -65,11 +86,8 @@ class ProductsController extends Controller
      */
     public function showAction(Products $product)
     {
-        $deleteForm = $this->createDeleteForm($product);
-
         return $this->render('products/show.html.twig', array(
             'product' => $product,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -81,20 +99,34 @@ class ProductsController extends Controller
      */
     public function editAction(Request $request, Products $product)
     {
-        $deleteForm = $this->createDeleteForm($product);
         $editForm = $this->createForm('EcommerceBundle\Form\ProductsType', $product);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($product->getImageForm() instanceof UploadedFile) {
+                /** @var UploadedFile $file */
+                $file = $product->getImageForm();
+
+                $filename = md5($product->getName() . '' . $product->getId());
+
+                $file->move(
+                    $this->get('kernel')->getRootDir() . '/../web/images/product/',
+                    $filename
+                );
+
+                $product->setImage($filename);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_products_edit', array('id' => $product->getId()));
+            $this->addFlash('success', 'Product is edited successfully!');
+
+            return $this->redirectToRoute('admin_products_index');
         }
 
         return $this->render('products/edit.html.twig', array(
             'product' => $product,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -102,35 +134,16 @@ class ProductsController extends Controller
      * Deletes a product entity.
      *
      * @Route("/{id}", name="admin_products_delete")
-     * @Method("DELETE")
+     * @Method("POST")
      */
-    public function deleteAction(Request $request, Products $product)
+    public function deleteAction(Products $product)
     {
-        $form = $this->createDeleteForm($product);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($product);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($product);
-            $em->flush();
-        }
+        $this->addFlash('success', 'Product deleted successfully!');
 
         return $this->redirectToRoute('admin_products_index');
-    }
-
-    /**
-     * Creates a form to delete a product entity.
-     *
-     * @param Products $product The product entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Products $product)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_products_delete', array('id' => $product->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }
