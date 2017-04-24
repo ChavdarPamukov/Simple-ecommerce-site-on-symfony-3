@@ -30,7 +30,7 @@ class ProductsController extends Controller
         $products = $em->getRepository('EcommerceBundle:Products')
             ->findBy([], ['id'=>'desc']);
 
-        return $this->render('products/index.html.twig', array(
+        return $this->render('admin/products/index.html.twig', array(
             'products' => $products,
         ));
     }
@@ -65,14 +65,14 @@ class ProductsController extends Controller
                 $em->persist($product);
                 $em->flush();
 
-                $this->addFlash('success', 'Category is created successfully!');
+                $this->addFlash('success', 'Product is created successfully!');
 
                 return $this->redirectToRoute('admin_products_show', array('id' => $product->getId()));
             }
 
         }
 
-        return $this->render('products/new.html.twig', array(
+        return $this->render('admin/products/new.html.twig', array(
             'product' => $product,
             'form' => $form->createView(),
         ));
@@ -86,7 +86,7 @@ class ProductsController extends Controller
      */
     public function showAction(Products $product)
     {
-        return $this->render('products/show.html.twig', array(
+        return $this->render('admin/products/show.html.twig', array(
             'product' => $product,
         ));
     }
@@ -124,7 +124,7 @@ class ProductsController extends Controller
             return $this->redirectToRoute('admin_products_index');
         }
 
-        return $this->render('products/edit.html.twig', array(
+        return $this->render('admin/products/edit.html.twig', array(
             'product' => $product,
             'edit_form' => $editForm->createView(),
         ));

@@ -1,0 +1,31 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block body %}
+    <section id="main">
+        <div class="container">
+            <div class="row">
+
+                {{ include('default/_flash_messages.html.twig') }}
+
+                {{ include('admin/_nav.html.twig') }}
+
+                <div class="col-md-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading main-color-bg">
+                            <h3 class="panel-title">Add product</h3>
+                        </div>
+                        <div class="panel-body">
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <input type="submit" class="btn main-color-bg" value="Create" />
+                            <a class="btn btn-success" href="{{ path('admin_products_index') }}">Back to the list</a>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

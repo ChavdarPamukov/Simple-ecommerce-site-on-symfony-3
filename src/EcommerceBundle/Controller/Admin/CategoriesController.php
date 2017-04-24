@@ -27,7 +27,7 @@ class CategoriesController extends Controller
 
         $categories = $em->getRepository('EcommerceBundle:Categories')->findAll();
 
-        return $this->render('categories/index.html.twig', array(
+        return $this->render('admin/categories/index.html.twig', array(
             'categories' => $categories,
         ));
     }
@@ -51,10 +51,10 @@ class CategoriesController extends Controller
 
             $this->addFlash('success', 'Category is created successfully!');
 
-            return $this->redirectToRoute('categories_index', array('id' => $category->getId()));
+            return $this->redirectToRoute('categories_index');
         }
 
-        return $this->render('categories/new.html.twig', array(
+        return $this->render('admin/categories/new.html.twig', array(
             'category' => $category,
             'form' => $form->createView(),
         ));
@@ -76,10 +76,10 @@ class CategoriesController extends Controller
 
             $this->addFlash('success', 'Category is edited successfully!');
 
-            return $this->redirectToRoute('categories_index', array('id' => $category->getId()));
+            return $this->redirectToRoute('categories_index');
         }
 
-        return $this->render('categories/edit.html.twig', array(
+        return $this->render('admin/categories/edit.html.twig', array(
             'category' => $category,
             'edit_form' => $editForm->createView(),
         ));
