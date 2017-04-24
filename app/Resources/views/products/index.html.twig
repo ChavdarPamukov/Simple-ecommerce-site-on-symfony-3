@@ -59,17 +59,21 @@
                             <table class="table table-striped table-hover">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Image</th>
                                     <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Category</th>
                                     <th>Description</th>
                                     <th>Price</th>
                                     <th>Actions</th>
                                 </tr>
                                 {% for product in products %}
                                     <tr>
-                                        <td>{{ product.id }}</td>
-                                        <td><img src="/images/product/{{ product.image }}" style="width: 50px;"/></td>
+                                        <td>
+                                            <a href="{{ path('admin_products_show', { 'id': product.id }) }}">{{ product.id }}</a>
+                                        </td>
                                         <td>{{ product.name }}</td>
+                                        <td><img src="/images/product/{{ product.image }}" style="width: 50px;"/></td>
+                                        <td>{{ product.category }}</td>
                                         <td>{{ product.description }}</td>
                                         <td>{{ product.price }}</td>
                                         <td>

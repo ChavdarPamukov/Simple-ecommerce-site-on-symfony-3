@@ -44,6 +44,11 @@ class Products
     private $price;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EcommerceBundle\Entity\Categories")
+     */
+    private $category;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
@@ -176,5 +181,20 @@ class Products
     {
         $this->image_form = $image_form;
     }
-}
 
+    /**
+     * @return Categories
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+}
