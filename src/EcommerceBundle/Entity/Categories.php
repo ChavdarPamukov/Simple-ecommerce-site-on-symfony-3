@@ -2,6 +2,7 @@
 
 namespace EcommerceBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,6 +29,12 @@ class Categories
      */
     private $name;
 
+    /**
+     * @var Products[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="EcommerceBundle\Entity\Products", mappedBy="category")
+     */
+    private $products;
 
     /**
      * Get id
@@ -66,6 +73,22 @@ class Categories
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return ArrayCollection|Products[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param ArrayCollection|Products[] $products
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
     }
 }
 

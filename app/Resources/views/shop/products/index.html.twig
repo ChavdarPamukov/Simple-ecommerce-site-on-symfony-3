@@ -1,0 +1,29 @@
+{% extends 'shop/layout.html.twig' %}
+
+{% block body %}
+    <section id="main">
+        <div class="container">
+            {{ include('shop/nav.html.twig') }}
+            <div class="row">
+                {{ include('admin/_nav.html.twig') }}
+
+                <div class="col-sm-9">
+                    <ul class="thumbnails">
+                    {% for product in products %}
+                        <li class="col-md-4">
+                            <div class="thumbnail">
+                                <img src="/images/product/{{ product.image }}" style="width: 90%;"/>
+                                <div class="caption">
+                                    <h3>{{ product.name }}</h3>
+                                    <p>{{ product.price }} &euro;</p>
+                                    <p><a href="{{ path('products_show', { 'id': product.id }) }}" class="btn btn-default">Show</a> <a href="#" class="btn main-color-bg">Buy</a></p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

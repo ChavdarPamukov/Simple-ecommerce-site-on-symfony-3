@@ -44,7 +44,9 @@ class Products
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcommerceBundle\Entity\Categories")
+     * @var Categories
+     *
+     * @ORM\ManyToOne(targetEntity="EcommerceBundle\Entity\Categories", inversedBy="products")
      */
     private $category;
 
@@ -198,3 +200,4 @@ class Products
         $this->category = $category;
     }
 }
+

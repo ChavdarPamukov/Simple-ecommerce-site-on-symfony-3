@@ -5,7 +5,6 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -15,7 +14,6 @@
         {% block body %}{% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/bootstrap.js') }}"></script>
-            <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>
