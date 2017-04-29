@@ -3,6 +3,7 @@
 namespace EcommerceBundle\Controller;
 
 use EcommerceBundle\Entity\Products;
+use EcommerceBundle\Entity\Categories;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *
  * @Route("/products")
  */
-class ShopProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Lists all product entities.
@@ -38,10 +39,22 @@ class ShopProductsController extends Controller
      * @Route("/{id}", name="products_show")
      * @Method("GET")
      */
-    public function showAction(Products $product)
+    public function showProductAction(Products $product)
     {
         return $this->render('shop/products/show.html.twig', array(
             'product' => $product,
+        ));
+    }
+
+    /**
+     * @Route("/category/{id}", name="category_products")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Method("GET")
+     */
+    public function productsInCategoryAction(Categories $category)
+    {
+        return $this->render('shop/categories/index.html.twig', array(
+            'category' => $category,
         ));
     }
 }

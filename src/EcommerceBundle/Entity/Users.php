@@ -3,6 +3,8 @@
 namespace EcommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Users
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="EcommerceBundle\Repository\UsersRepository")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var int
@@ -24,14 +26,17 @@ class Users
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
-    private $name;
+    private $username;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 
@@ -43,9 +48,15 @@ class Users
     private $password;
 
     /**
-     * @var int
+     * @Assert\Length(min="4")
+     */
+    private $password_raw;
+
+    /**
+     * @var string
      *
-     * @ORM\Column(name="phone", type="integer")
+     * @ORM\Column(name="phone", type="string", length=12)
+     * @Assert\NotBlank()
      */
     private $phone;
 
@@ -53,22 +64,9 @@ class Users
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $address;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_created", type="datetime")
-     */
-    private $dateCreated;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255)
-     */
-    private $role;
 
 
     /**
@@ -82,27 +80,27 @@ class Users
     }
 
     /**
-     * Set name
+     * Set username
      *
-     * @param string $name
+     * @param string $username
      *
      * @return Users
      */
-    public function setName($name)
+    public function setUsername($username)
     {
-        $this->name = $name;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get username
      *
      * @return string
      */
-    public function getName()
+    public function getUsername()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
@@ -156,7 +154,7 @@ class Users
     /**
      * Set phone
      *
-     * @param integer $phone
+     * @param string $phone
      *
      * @return Users
      */
@@ -170,7 +168,7 @@ class Users
     /**
      * Get phone
      *
-     * @return int
+     * @return string
      */
     public function getPhone()
     {
@@ -202,51 +200,62 @@ class Users
     }
 
     /**
-     * Set dateCreated
+     * Returns the roles granted to the user.
      *
-     * @param \DateTime $dateCreated
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
      *
-     * @return Users
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
      */
-    public function setDateCreated($dateCreated)
+    public function getRoles()
     {
-        $this->dateCreated = $dateCreated;
-
-        return $this;
+        return array('ROLE_USER');
     }
 
     /**
-     * Get dateCreated
+     * Returns the salt that was originally used to encode the password.
      *
-     * @return \DateTime
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
      */
-    public function getDateCreated()
+    public function getSalt()
     {
-        return $this->dateCreated;
+        return null;
     }
 
     /**
-     * Set role
+     * Removes sensitive data from the user.
      *
-     * @param string $role
-     *
-     * @return Users
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
      */
-    public function setRole($role)
+    public function eraseCredentials()
     {
-        $this->role = $role;
-
-        return $this;
     }
 
     /**
-     * Get role
-     *
-     * @return string
+     * @return mixed
      */
-    public function getRole()
+    public function getPasswordRaw()
     {
-        return $this->role;
+        return $this->password_raw;
+    }
+
+    /**
+     * @param mixed $password_raw
+     */
+    public function setPasswordRaw($password_raw)
+    {
+        $this->password_raw = $password_raw;
     }
 }
 

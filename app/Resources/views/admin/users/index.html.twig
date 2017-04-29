@@ -9,7 +9,7 @@
 
                 {{ include('default/_flash_messages.html.twig') }}
 
-                {{ include('admin/_nav.html.twig') }}
+                {{ include('admin/nav.html.twig') }}
 
                 <div class="col-md-9">
                     <div class="panel panel-default">
@@ -30,19 +30,12 @@
                                 <tbody>
                                 {% for user in users %}
                                     <tr>
-                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.username }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone }}</td>
                                         <td>{{ user.address }}</td>
                                         <td>
-                                            <ul>
-                                                <li>
-                                                    <a href="{{ path('admin_users_show', { 'id': user.id }) }}">show</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ path('admin_users_edit', { 'id': user.id }) }}">edit</a>
-                                                </li>
-                                            </ul>
+                                            <a class="btn main-color-bg" href="{{ path('admin_users_edit', { 'id': user.id }) }}">edit</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

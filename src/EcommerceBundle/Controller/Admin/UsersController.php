@@ -5,8 +5,7 @@ namespace EcommerceBundle\Controller\Admin;
 use EcommerceBundle\Entity\Users;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -33,38 +32,12 @@ class UsersController extends Controller
     }
 
     /**
-     * Creates a new user entity.
+     * Finds and displays a user entity in edit.
      *
-     * @Route("/new", name="admin_users_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $user = new Users();
-        $form = $this->createForm('EcommerceBundle\Form\UsersType', $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_users_show', array('id' => $user->getId()));
-        }
-
-        return $this->render('admin/users/new.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a user entity.
-     *
-     * @Route("/{id}", name="admin_users_show")
+     * @Route("/{id}", name="admin_users_edit_show")
      * @Method("GET")
      */
-    public function showAction(Users $user)
+    public function editShowUserAction(Users $user)
     {
         return $this->render('admin/users/show.html.twig', array(
             'user' => $user,
@@ -85,7 +58,9 @@ class UsersController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_users_edit', array('id' => $user->getId()));
+            $this->addFlash('success', 'User edited successfully!');
+
+            return $this->redirectToRoute('admin_users_index', array('id' => $user->getId()));
         }
 
         return $this->render('admin/users/edit.html.twig', array(
@@ -100,7 +75,7 @@ class UsersController extends Controller
      * @Route("/{id}", name="admin_users_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Users $user)
+    public function deleteAction(Request $request, Users $user)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);

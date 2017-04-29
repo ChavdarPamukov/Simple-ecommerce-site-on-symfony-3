@@ -26,6 +26,7 @@ class Products
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -40,6 +41,8 @@ class Products
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=11, scale=2)
+     * @Assert\NotBlank()
+     * @Assert\Range(min="1.00")
      */
     private $price;
 
@@ -199,5 +202,7 @@ class Products
     {
         $this->category = $category;
     }
+
+
 }
 

@@ -5,8 +5,7 @@
         <div class="container">
             {{ include('shop/nav.html.twig') }}
             <div class="row">
-                {{ include('admin/_nav.html.twig') }}
-
+                {{ render(controller('EcommerceBundle:ShopCategoryMenu:menuCategories')) }}
                 <div class="col-sm-9">
                     <ul class="thumbnails">
                     {% for product in products %}

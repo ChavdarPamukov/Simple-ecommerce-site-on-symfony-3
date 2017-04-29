@@ -1,0 +1,30 @@
+<div class="col-md-3">
+    <div class="list-group">
+        <a href="{{ path('dashboard_index') }}"
+           class="{% if (app.request.attributes.get('_route') == 'dashboard_index')
+                    %}active main-color-bg{% endif %}
+                list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard</a>
+        <a href="{{ path('categories_index') }}"
+           class="{% if (app.request.attributes.get('_route') == 'categories_index')
+                        or (app.request.attributes.get('_route') == 'categories_edit')
+                        or (app.request.attributes.get('_route') == 'categories_new')
+                    %}active main-color-bg{% endif %}
+               list-group-item"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Categories</a>
+        <a href="{{ path('admin_products_index') }}"
+           class="{% if app.request.attributes.get('_route') == 'admin_products_index'
+                       or (app.request.attributes.get('_route') == 'admin_products_new')
+                       or (app.request.attributes.get('_route') == 'admin_products_show')
+                       or (app.request.attributes.get('_route') == 'admin_products_edit')
+                    %}active main-color-bg{% endif %}
+               list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Products</a>
+        <a href="orders.html"
+           class="list-group-item"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Orders</a>
+        <a href="{{ path('admin_users_index') }}"
+           class="{% if app.request.attributes.get('_route') == 'admin_users_index'
+                       or (app.request.attributes.get('_route') == 'admin_users_new')
+                       or (app.request.attributes.get('_route') == 'admin_users_show')
+                       or (app.request.attributes.get('_route') == 'admin_users_edit')
+                    %}active main-color-bg{% endif %}
+               list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a>
+    </div>
+</div>
